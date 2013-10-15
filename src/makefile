@@ -47,5 +47,6 @@ clean :
 
 .PHONY : install
 install :
+	mkdir ../bin
 	mv bubblebin ../bin/
 
