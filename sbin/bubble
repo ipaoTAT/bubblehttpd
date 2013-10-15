@@ -1,0 +1,52 @@
+######################################################
+#!/bin/sh
+# AUTHOR DXF
+# TIME 11 MAY, 2013 00:3152
+# Shell srcipt to start or stop Bubble server Service
+######################################################
+
+#set -x
+
+cmd="bubblebin"
+pwd="/usr/local/bubble"
+
+if [ $# = 1 ]; then
+	cd $pwd
+	
+	if [ "$1" = "start" ]; then
+		i=`ps aux | grep $cmd | wc -l`
+		if [ $i = 1 ]; then
+			if [ -f "server" ] || true; then
+			./bin/$cmd
+			echo "Start Bubble Server OK"
+			else
+			echo "Server start faild, no server file"
+			echo "Please make install first"
+			fi
+		else echo "Server has started"
+		fi
+	fi
+
+	if [ "$1" = "stop" ];then
+		killall -SIGUSR1 $cmd
+		if [ $? = 0 ]; then
+			echo "Stop Bubble Server OK"
+		else
+			echo "Stop Bubble Server Faild"
+		fi
+	fi
+
+	if [ "$1" = "restart" ]; then
+		killall -SIGUSR1 $cmd
+		if [ $? = 0 ]; then
+			echo "Stop Bubble Server OK"
+			./bin/$cmd
+			echo "Start Bubble Server OK"
+		else
+			echo "Stop Bubble Server Faild"
+		fi
+	fi
+else
+	echo "argument error!"
+fi
+
